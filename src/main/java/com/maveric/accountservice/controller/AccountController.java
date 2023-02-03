@@ -109,7 +109,7 @@ public class AccountController {
                 return new ResponseEntity<>("Account deleted successfully", HttpStatus.OK);
             }
             else {
-                return new ResponseEntity<>(accountId+"AccountIdNotFound", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Account not found", HttpStatus.NOT_FOUND);
             }
         } else {
             throw new CustomerIdMissmatchException("You are not an authorized user");
@@ -134,6 +134,28 @@ public class AccountController {
         }
 
 
+    }
+
+    @DeleteMapping("customers/{customerId}/accounts")
+    public ResponseEntity<String> deleteAllAccount(@PathVariable String customerId,
+                                                @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException,CustomerIdMissmatchException{
+
+        if(headerUserId.equals(customerId)) {
+            List<Account> accountList = accountRepository.findAccountsByCustomerId(customerId);
+            if(accountList.isEmpty()) {
+                return new ResponseEntity<>(MessageConstant.ACCOUNT_NOT_FOUND, HttpStatus.NOT_FOUND);
+            }
+            else {
+                accountList.forEach(account -> {
+                    feignBalanceService.deleteBalanceByAccountId(account.get_id(), account.getCustomerId());
+                    feignTransactionService.deleteTransactionByAccountId(account.get_id(), account.getCustomerId());
+                    accountService.deleteAccount(account.get_id(), account.getCustomerId());
+                });
+                return new ResponseEntity<>(MessageConstant.DELETION_SUCCESS, HttpStatus.OK);
+            }
+        } else {
+            throw new CustomerIdMissmatchException(MessageConstant.NOT_AUTHORIZED_USER);
+        }
     }
 }
 
