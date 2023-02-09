@@ -144,18 +144,13 @@ public class AccountController {
                                                 @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException,CustomerIdMissmatchException{
 
         if(headerUserId.equals(customerId)) {
-            List<Account> accountList = accountRepository.findAccountsByCustomerId(customerId);
-            if(accountList.isEmpty()) {
-                throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
-            }
-            else {
-                accountList.forEach(account -> {
-                    feignBalanceService.deleteBalanceByAccountId(account.get_id(), account.getCustomerId());
-                    feignTransactionService.deleteTransactionByAccountId(account.get_id(), account.getCustomerId());
-                    accountService.deleteAccount(account.get_id(), account.getCustomerId());
-                });
-                return new ResponseEntity<>(MessageConstant.DELETION_SUCCESS, HttpStatus.OK);
-            }
+        List<Account> accountList = accountRepository.findAccountsByCustomerId(customerId);
+            accountList.forEach(account -> {
+                feignBalanceService.deleteBalanceByAccountId(account.get_id(), account.getCustomerId());
+                feignTransactionService.deleteTransactionByAccountId(account.get_id(), account.getCustomerId());
+                accountService.deleteAccount(account.get_id(), account.getCustomerId());
+            });
+            return new ResponseEntity<>(MessageConstant.DELETION_SUCCESS, HttpStatus.OK);
         } else {
             throw new CustomerIdMissmatchException(MessageConstant.NOT_AUTHORIZED_USER);
         }
