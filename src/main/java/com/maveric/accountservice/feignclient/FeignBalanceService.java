@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(value = "balance", url = "http://localhost:3015/api/v1")
+@FeignClient(value = "balance-service")
 public interface FeignBalanceService {
 
-    @DeleteMapping("/accounts/{accountId}/balances")
+    @DeleteMapping("api/v1/accounts/{accountId}/balances")
     public ResponseEntity<String> deleteBalanceByAccountId(@PathVariable("accountId") String accountId,
                                                            @RequestHeader(value = "userid") String headerUserId);
 
-    @GetMapping("accounts/{accountId}/balances")
+    @GetMapping("api/v1/accounts/{accountId}/balances")
     public ResponseEntity<BalanceDto> getAllBalanceByAccountId(@PathVariable("accountId") @Valid String accountId,
                                                                @RequestHeader(value = "userid") String headerUserId);
 }
