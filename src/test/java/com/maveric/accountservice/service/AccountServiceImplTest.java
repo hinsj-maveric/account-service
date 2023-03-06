@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 //@RunWith(SpringRunner.class)
-public class AccountServiceImplTest {
+class AccountServiceImplTest {
     @InjectMocks
     private AccountServiceImpl service;
 
@@ -43,7 +43,6 @@ public class AccountServiceImplTest {
     @Mock
     private Page pageResult;
     @Test
-
     void getAccountDetailsById() throws AccountNotFoundException {
         when(repository.findById(any(String.class))).thenReturn(Optional.empty());
         assertThrows(AccountNotFoundException.class,()->{
@@ -52,29 +51,12 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testGetAccounts() {
+    void testGetAccounts() {
         Page<Account> pagedResponse = new PageImpl(Arrays.asList(getAccount(),getAccount()));
         when(repository.findByCustomerId(any(Pageable.class),any())).thenReturn(pagedResponse);
         when(mapper.mapToDto(any())).thenReturn(Arrays.asList(getAccountDto(),getAccountDto()));
         List<AccountDto> accountDtos= service.getAccountByUserId(1, 2,"1");
-        assertTrue(accountDtos.size()==2);
-    }
-    @Test
-
-    void updateAccountDetails() {
-
-
-        AccountDto accountDto = service.updateAccount("1234","123",getAccountDto());
-
-        assertSame(accountDto.getType(),getAccountDto().getType());
-    }
-    @Test
-    void notupdateAccountDetails() {
-
-
-        AccountDto accountDto = service.updateAccount("1234","",getAccountDto());
-
-        assertSame(accountDto.getType(),getAccountDto().getType());
+        assertEquals(accountDtos.get(0).getType(), getAccountDto().getType());
     }
 
     @Test

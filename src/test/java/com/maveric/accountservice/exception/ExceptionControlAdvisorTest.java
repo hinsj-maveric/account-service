@@ -6,7 +6,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ExceptionControlAdvisorTest {
+class ExceptionControlAdvisorTest {
     private  ExceptionControlAdvisor controllerAdvisor = new ExceptionControlAdvisor();
 
     @Test

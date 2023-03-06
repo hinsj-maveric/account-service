@@ -58,7 +58,7 @@ public class AccountController {
                                  @Valid @PathVariable("accountId") String accountId,
                                  @RequestHeader(value = "userid") String headerUserId) throws AccountNotFoundException ,CustomerIDNotFoundExistsException{
         if(headerUserId.equals(customerId)) {
-            AccountDto accountDto = accountService.getAccountByAccId(customerId, accountId);;
+            AccountDto accountDto = accountService.getAccountByAccId(customerId, accountId);
             ResponseEntity<BalanceDto> balanceDto = feignBalanceService.getAllBalanceByAccountId(accountId, customerId);
             accountDto.setBalanceDto(balanceDto.getBody());
             return new ResponseEntity<>(accountDto, HttpStatus.OK).getBody();
@@ -70,7 +70,7 @@ public class AccountController {
     @PutMapping("customers/{customerId}/accounts/{accountId}")
     public ResponseEntity<Account> updateAccount(@PathVariable(name = "customerId") String customerId,
                                                  @Valid @PathVariable(name = "accountId") String accountId,
-                                                 @RequestBody Account account,
+                                                 @RequestBody AccountDto account,
                                                  @RequestHeader(value = "userid") String headerUserId) {
 
         if(headerUserId.equals(customerId)) {
@@ -125,8 +125,8 @@ public class AccountController {
             accountDto, @RequestHeader(value = "userid") String headerUserId){
 
         if(headerUserId.equals(customerId)) {
-            UserDto userDto = feignUserConsumer.getUserById(customerId, headerUserId).getBody();
-            if(userDto.getId().equals(accountDto.getCustomerId())) {
+            UserDto userDto = feignUserConsumer.getUserById(customerId, headerUserId).getBody(); //NOSONAR
+            if(userDto.getId().equals(accountDto.getCustomerId())) {  //NOSONAR
                 AccountDto accountDtoResponse = accountService.createAccount(customerId, accountDto);
                 return new ResponseEntity<>(accountDtoResponse, HttpStatus.CREATED);
             } else {

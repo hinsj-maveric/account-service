@@ -25,26 +25,22 @@ class AccountServiceApplicationTests {
 		assertTrue(true);
 
 	}
-
-
-		public static Account getAccount ()
-		{
-			return Account.builder()
-					.customerId("1234")
-					.type(Type.SAVINGS)
-					.build();
-		}
-		public static AccountDto getAccountDto ()
-		{
-			return AccountDto.builder()
-					.customerId("1234")
-					.type(Type.CURRENT)
-					.build();
-		}
-
-
-
-		}
+	
+	public static Account getAccount ()
+	{
+		return Account.builder()
+				.customerId("1234")
+				.type(Type.SAVINGS)
+				.build();
+	}
+	public static AccountDto getAccountDto ()
+	{
+		return AccountDto.builder()
+				.customerId("1234")
+				.type(Type.CURRENT)
+				.build();
+	}
+}
 
 
 

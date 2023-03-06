@@ -11,7 +11,7 @@ import static com.maveric.accountservice.AccountServiceApplicationTests.getAccou
 import static com.maveric.accountservice.AccountServiceApplicationTests.getAccountDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AccountMapperTest {
+class AccountMapperTest {
     private AccountMapperImpl accountMapper = new AccountMapperImpl();
     @Test
     void map() {

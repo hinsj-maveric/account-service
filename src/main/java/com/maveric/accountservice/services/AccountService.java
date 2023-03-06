@@ -21,7 +21,7 @@ public interface AccountService {
     List<Account> getAccountById(String customerId);
     public List<AccountDto> getAccountByUserId(Integer page, Integer pageSize, String customerId)throws CustomerIdMissmatchException;
 
-    Account updateAccount(String customerId, String accountId, Account account) throws CustomerIDNotFoundExistsException;
+    Account updateAccount(String customerId, String accountId, AccountDto account) throws CustomerIDNotFoundExistsException;
 
     Object updateAccount(Object any);
 

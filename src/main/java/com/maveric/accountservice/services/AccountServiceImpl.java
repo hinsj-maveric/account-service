@@ -63,7 +63,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateAccount(String customerId, String accountId, Account account) {
+    public Account updateAccount(String customerId, String accountId, AccountDto account) {
         Account accountResult = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE + accountId));
         if (!customerId.equals(account.getCustomerId())) {
             throw new CustomerIDNotFoundExistsException("Customer Id should not be empty");
@@ -83,11 +83,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Object updateAccount(Object any) {
         return any;
-    }
-
-
-    public AccountDto updateAccount(String customerId, String accountId, AccountDto accountDto) {
-        return accountDto;
     }
 
 
